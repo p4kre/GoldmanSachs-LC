@@ -1,0 +1,70 @@
+/* ROBOT BOUNDED BY CIRCLE
+📝 **Question:**
+A robot starts at `(0,0)` facing **north** (`+Y direction`). It is given a string `instructions`, where:
+- `'G'` → Move **one step forward** in the current direction.
+- `'L'` → Turn **90° left**.
+- `'R'` → Turn **90° right**.
+
+Return `true` if the robot is **bounded in a circle**, meaning:
+- It returns to `(0,0)`, or
+- It **does not face north** after completing one full execution of `instructions`.
+
+Otherwise, return `false`.
+
+---
+
+📌 **Example 1:**
+```cpp
+Input: instructions = "GGLLGG"
+Output: true
+*/
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+bool isBounded(string instructions){
+  int x = 0, y = 0;
+  char currDir = 'N';
+  
+  for(char i : instructions){
+    if(i != 'G' || i != 'L' || i != 'R') return false;
+    
+    if(i == 'G'){
+        if(currDir == 'N') y++;
+        else if (currDir == 'W') x--;
+        else if (currDir == 'S') y--;
+        else if (currDir == 'E') x++;
+    }
+
+    else if ( i == 'L') {
+     if(currDir == 'N') currDir = 'W';
+     else if(currDir == 'W') currDir = 'S';
+     else if(currDir == 'S') currDir = 'E';
+     else if(currDir == 'E') currDir = 'N';
+    }
+
+    else {
+     if(currDir == 'N') currDir = 'E';
+     else if(currDir == 'W') currDir = 'N';
+     else if(currDir == 'S') currDir = 'W';
+     else if(currDir == 'E') currDir = 'S';
+
+    }
+  }
+   return (x == 0 && y == 0) || (currDir != 'N'); // ✅ Corrected
+
+}
+
+
+int main() {
+    string input;
+    cout << "Enter the instructions: ";
+    cin >> input; // ✅ Fix input handling
+
+    bool result = isBounded(input);
+
+    cout << "Is the robot bounded? : " << (result ? "Yes" : "No") << endl;
+
+    return 0;
+}
